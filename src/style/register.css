@@ -1,0 +1,36 @@
+#register{
+    background-image: url(../assets/login.png);
+}
+
+html,
+body {
+    height: 100%;
+}
+
+input {
+    width: 100%;
+    margin-bottom: 10px;
+}
+button {
+    width: 50%;
+}
+
+main {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    height: 100vh; /* 让 main 元素撑满整个视口高度 */
+}
+
+
+
+.form-container {
+    /* 创建白色虚化背景 */
+    background-color: rgba(255, 255, 255, 0.8); /* 使用 rgba() 设置颜色和透明度 */
+    border-radius: 10px; /* 设置圆角 */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); /* 创建白色阴影效果 */
+    width: 500px;
+    padding: 30px;
+}
+
+

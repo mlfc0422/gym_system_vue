@@ -1,0 +1,59 @@
+html,
+body {
+    height: 100%;
+}
+
+main {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    height: 100vh; /* 让 main 元素撑满整个视口高度 */
+}
+
+form {
+    width: 100%;
+}
+
+.form-signin {
+    max-width: 430px;
+    padding: 15px;
+}
+
+.form-signin .form-floating:focus-within {
+    z-index: 2;
+}
+
+.form-signin input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between; /* 将按钮水平间距均匀分布 */
+    margin-top: 20px; /* 添加一些顶部间距 */
+}
+
+.btn {
+    width: 48%; /* 设置按钮宽度为容器的一半 */
+}
+
+.form-container {
+    /* 创建白色虚化背景 */
+    background-color: rgba(255, 255, 255, 0.8); /* 使用 rgba() 设置颜色和透明度 */
+    border-radius: 10px; /* 设置圆角 */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); /* 创建白色阴影效果 */
+    width: 500px;
+    padding: 20px;
+}
+
+#login {
+    background-image: url(../assets/login.png);
+}
