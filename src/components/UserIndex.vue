@@ -23,7 +23,7 @@ function logout() {
 
 <template>
   <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <router-link to="/userIndex" class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6">104Gym</router-link>
+    <router-link to="/userIndex/introduce" class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6">104Gym</router-link>
     <div class="navbar-nav">
       <div class="nav-item text-nowrap">
         <a class="nav-link px-3" @click="logout">登出</a>

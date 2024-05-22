@@ -15,7 +15,7 @@ function submitForm() {
         if (res.data.code === 1) {
           auth.login();
           alert('登录成功');
-          router.push('/userIndex');
+          router.push('/userIndex/introduce');
         } else {
           alert('登录失败:' + res.data.msg);
         }

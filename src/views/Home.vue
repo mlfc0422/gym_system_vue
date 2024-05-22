@@ -45,7 +45,7 @@
       </template>
     </el-dialog>
 
-    <div ref="chartRef" style="width: 400px; height: 400px;"></div>
+    <div ref="chartRef" style="width: 400px; height: 400px; margin-top: 50px"></div>
   </div>
 </template>
 
@@ -53,6 +53,11 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import * as echarts from 'echarts';
+
+interface CourseCount {
+  courseName: string;
+  courseCount: number;
+}
 
 const userData = ref({
   username: '',
@@ -64,7 +69,7 @@ const userData = ref({
   weight: '',
 });
 
-const CourseCount = ref([]);
+const UserCourseCountList = ref<CourseCount[]>([]);
 
 const formLabelWidth = '140px';
 const dialogFormVisible = ref(false);
@@ -99,7 +104,7 @@ const initChart = () => {
           name: '数据',
           type: 'pie',
           radius: '50%',
-          data: CourseCount.value.map(item => ({ value: item.courseCount, name: item.courseName })),
+          data: UserCourseCountList.value.map(item => ({ value: item.courseCount, name: item.courseName })),
           emphasis: {
             itemStyle: {
               shadowBlur: 10,
@@ -117,7 +122,7 @@ const initChart = () => {
 const myCourseCount = async () => {
   try {
     const res = await axios.get('course/myCourseCount');
-    CourseCount.value = res.data.data;
+    UserCourseCountList.value = res.data.data;
   } catch (err) {
     console.log(err);
   }

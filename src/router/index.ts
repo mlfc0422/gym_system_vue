@@ -9,6 +9,8 @@ import Course from "@/views/Course.vue";
 import MyClass from "@/views/MyClass.vue";
 import Message from "@/views/Message.vue";
 import auth from "@/utils/auth";
+import User from "@/views/Introduce.vue";
+import Introduce from "@/views/Introduce.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,6 +54,10 @@ const router = createRouter({
                 {
                     path: 'message',
                     component: Message
+                },
+                {
+                    path: 'introduce',
+                    component: Introduce
                 }
             ]
 
