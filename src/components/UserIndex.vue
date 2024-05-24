@@ -55,7 +55,7 @@ function logout() {
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/userIndex/message" class="nav-link rectangle">
+              <router-link to="/userIndex/userMessage" class="nav-link rectangle">
                 <span class="align-text-bottom"></span>
                 公告栏
               </router-link>

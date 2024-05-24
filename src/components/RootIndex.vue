@@ -36,31 +36,31 @@ function logout() {
         <div class="position-sticky pt-3 sidebar-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <router-link to="/userIndex/home" class="nav-link rectangle">
+              <router-link to="" class="nav-link rectangle">
                 <span class="align-text-bottom"></span>
                 用户管理
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/userIndex/course" class="nav-link rectangle">
+              <router-link to="" class="nav-link rectangle">
                 <span class="align-text-bottom"></span>
                 课程管理
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/userIndex/myClass" class="nav-link rectangle">
+              <router-link to="" class="nav-link rectangle">
                 <span class="align-text-bottom"></span>
                 器材管理
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/userIndex/message" class="nav-link rectangle">
+              <router-link to="" class="nav-link rectangle">
                 <span class="align-text-bottom"></span>
                 员工管理
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/userIndex/message" class="nav-link rectangle">
+              <router-link to="/rootIndex/rootMessage" class="nav-link rectangle">
                 <span class="align-text-bottom"></span>
                 留言管理
               </router-link>
@@ -80,5 +80,5 @@ function logout() {
 </template>
 
 <style scoped>
-
+@import "../style/index.css";
 </style>

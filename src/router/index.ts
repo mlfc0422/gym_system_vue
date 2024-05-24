@@ -7,10 +7,10 @@ import RootIndex from "@/components/RootIndex.vue";
 import Home from "@/views/Home.vue";
 import Course from "@/views/Course.vue";
 import MyClass from "@/views/MyClass.vue";
-import Message from "@/views/Message.vue";
+import UserMessage from "@/views/UserMessage.vue";
 import auth from "@/utils/auth";
-import User from "@/views/Introduce.vue";
 import Introduce from "@/views/Introduce.vue";
+import RootMessage from "@/views/RootMessage.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,7 +30,7 @@ const router = createRouter({
         {
             path: '/userIndex',
             component: UserIndex,
-            meta: { requiresAuth: true },
+            meta: {requiresAuth: true},
             beforeEnter: (to, from, next) => {
                 if (to.meta.requiresAuth && !auth.loggedIn()) {
                     next('/userLogin'); // 如果需要登录且未登录，则跳转到登录页面
@@ -52,8 +52,8 @@ const router = createRouter({
                     component: MyClass
                 },
                 {
-                    path: 'message',
-                    component: Message
+                    path: 'userMessage',
+                    component: UserMessage
                 },
                 {
                     path: 'introduce',
@@ -69,7 +69,7 @@ const router = createRouter({
         {
             path: '/rootIndex',
             component: RootIndex,
-            meta: { requiresAuth: true },
+            meta: {requiresAuth: true},
             beforeEnter: (to, from, next) => {
                 if (to.meta.requiresAuth && !auth.loggedIn()) {
                     next('/rootLogin'); // 如果需要登录且未登录，则跳转到登录页面
@@ -77,6 +77,12 @@ const router = createRouter({
                     next(); // 继续路由跳转
                 }
             },
+            children:[
+                {
+                    path:'rootMessage',
+                    component: RootMessage
+                }
+            ]
         }
 
     ]
