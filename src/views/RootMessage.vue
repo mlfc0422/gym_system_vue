@@ -143,6 +143,13 @@ onMounted(() => {
       <el-table :data="announcementList" class="mt-4">
         <el-table-column prop="name" label="发布人"></el-table-column>
         <el-table-column prop="content" label="公告内容"></el-table-column>
+        <el-table-column prop="imgPath" label="图片" width="200">
+          <template v-slot="{ row }">
+            <img v-if="row.imgPath" :src="'/src/assets/messageImg/'+row.imgPath" alt="留言图片"
+                 style="max-width: 100%; max-height: 100px;">
+          </template>
+        </el-table-column>
+        <el-table-column prop="createTime" label="留言时间"></el-table-column>
         <el-table-column label="操作">
           <template v-slot="scope">
             <el-button type="danger" @click="deleteAnnouncement(scope.$index)">删除</el-button>
@@ -159,6 +166,13 @@ onMounted(() => {
       <el-table :data="messageList" class="mt-4">
         <el-table-column prop="name" label="用户名"></el-table-column>
         <el-table-column prop="content" label="留言内容"></el-table-column>
+        <el-table-column prop="imgPath" label="图片" width="200">
+          <template v-slot="{ row }">
+            <img v-if="row.imgPath" :src="'/src/assets/messageImg/'+row.imgPath" alt="留言图片"
+                 style="max-width: 100%; max-height: 100px;">
+          </template>
+        </el-table-column>
+        <el-table-column prop="createTime" label="留言时间"></el-table-column>
         <el-table-column label="操作">
           <template v-slot="scope">
             <el-button type="danger" @click="deleteMessage(scope.$index)">删除</el-button>
