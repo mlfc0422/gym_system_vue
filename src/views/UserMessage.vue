@@ -121,7 +121,7 @@ function sendMessage() {
       <div class="announcement-section d-flex align-items-center mb-3">
         <button class="btn btn-primary me-3" @click="toggleAnnouncementList">历史公告</button>
         <div class="current-announcement flex-grow-1">
-          <strong>公告：</strong>{{ currentAnnouncement?.content }}
+          <strong>公告:</strong>{{ currentAnnouncement?.content }}
         </div>
       </div>
 
@@ -135,6 +135,11 @@ function sendMessage() {
           </div>
           <div class="data-row">
             <div class="data-value">{{ announcement.content }}</div>
+          </div>
+          <!-- 图片 -->
+          <div class="data-row" v-if="announcement.imgPath">
+            <img :src="'/src/assets/messageImg/'+announcement.imgPath" alt="管理员上传的图片"
+                 style="width: 240px;height: 180px"/>
           </div>
         </div>
       </div>

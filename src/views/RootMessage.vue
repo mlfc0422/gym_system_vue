@@ -8,12 +8,15 @@ interface Message {
   name: String;
   content: String;
   createTime: String;
+  imgPath: String;
 }
 
 // 定义状态
-const newAnnouncement = ref('');
+const newAnnouncement = ref<Message>({createTime: '', id: 0, name: '', content: '', imgPath: ''});
 const announcementList = ref<Message[]>([]);
 const messageList = ref<Message[]>([]);
+const showAnnouncementDialog = ref(false);
+const selectedImageFile = ref<File | null>(null);
 
 // 获取公告列表
 const getAnnouncements = async () => {
@@ -50,20 +53,6 @@ const deleteAnnouncement = async (index: number) => {
   }
 };
 
-const addAnnouncement = async () => {
-  try {
-    const response = await axios.post('/message/root', { content: newAnnouncement.value });
-    if (response.data.code === 1) {
-      alert('新增成功');
-      await getAnnouncements();
-    } else {
-      alert('新增失败:'+response.data.msg)
-    }
-  } catch (error) {
-    console.error('Error adding announcement:', error);
-  }
-};
-
 const deleteMessage = async (index: number) => {
   try {
     const response = await axios.delete(`/message/user/${messageList.value[index].id}`);
@@ -79,6 +68,63 @@ const deleteMessage = async (index: number) => {
 };
 
 
+const handleFileChange = (event: Event) => {
+  const fileInput = event.target as HTMLInputElement;
+  if (fileInput.files && fileInput.files[0]) {
+    selectedImageFile.value = fileInput.files[0];
+  } else {
+    selectedImageFile.value = null;
+  }
+};
+
+const uploadImage = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    axios.post('/message/image', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+        .then(response => {
+          if (response.data.code === 1) {
+            resolve(response.data.data); // 返回图片路径
+          } else {
+            reject('上传失败: ' + response.data.msg);
+          }
+        })
+        .catch(error => {
+          reject('Error uploading image: ' + error);
+        });
+  });
+};
+
+const submitAnnouncement = async () => {
+
+  try {
+    if (selectedImageFile.value) {
+      newAnnouncement.value.imgPath = await uploadImage(selectedImageFile.value);
+    }
+
+    const response = await axios.post('/message/root', newAnnouncement.value);
+    if (response.data.code === 1) {
+      alert('公告发布成功');
+      showAnnouncementDialog.value = false;
+      // 清空表单
+      newAnnouncement.value.content = '';
+      newAnnouncement.value.imgPath = '';
+      selectedImageFile.value = null;
+      // 重新获取公告列表
+      await getAnnouncements()
+    } else {
+      alert('公告发布失败: ' + response.data.msg);
+    }
+  } catch (error) {
+    console.error('公告发布失败:', error);
+    alert('公告发布失败，请稍后再试。');
+  }
+};
 // 在组件挂载时调用获取公告和留言的方法
 onMounted(() => {
   getAnnouncements();
@@ -92,8 +138,7 @@ onMounted(() => {
     <!-- 公告管理 -->
     <div class="mb-4">
       <h2>公告管理</h2>
-      <el-input v-model="newAnnouncement" placeholder="请输入公告内容" class="mb-2"></el-input>
-      <el-button type="primary" @click="addAnnouncement">新增公告</el-button>
+      <el-button type="primary" @click="showAnnouncementDialog = true">新增公告</el-button>
 
       <el-table :data="announcementList" class="mt-4">
         <el-table-column prop="name" label="发布人"></el-table-column>
@@ -121,6 +166,22 @@ onMounted(() => {
         </el-table-column>
       </el-table>
     </div>
+
+    <!-- 新增公告对话框 -->
+    <el-dialog title="新增公告" v-model="showAnnouncementDialog">
+      <el-form :model="newAnnouncement">
+        <el-form-item label="公告内容">
+          <el-input type="textarea" v-model="newAnnouncement.content"></el-input>
+        </el-form-item>
+        <el-form-item label="上传图片">
+          <input id="file-input" type="file" @change="handleFileChange">
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="showAnnouncementDialog = false">取消</el-button>
+        <el-button type="primary" @click="submitAnnouncement">提交</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
