@@ -22,6 +22,7 @@ const newMessage = ref<Message>({
 const currentAnnouncement = ref<Message | null>(null);
 const rootContentList = ref<Message[]>([]);
 const showAnnouncementList = ref(false);
+const selectedImageFile = ref<File | null>(null);
 
 onMounted(() => {
   getUserContentList();
@@ -63,55 +64,61 @@ function toggleAnnouncementList() {
   showAnnouncementList.value = !showAnnouncementList.value;
 }
 
-const uploadImage = (event: Event) => {
+const handleFileChange = (event: Event) => {
   const fileInput = event.target as HTMLInputElement;
-  if (!fileInput.files) return;
-
-  const file = fileInput.files[0];
-  const formData = new FormData();
-  formData.append('image', file);
-
-  axios.post('/message/image', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  })
-      .then(response => {
-        if (response.data.code === 1) {
-          newMessage.value.imgPath = response.data.data;
-        } else {
-          alert('上传失败:' + response.data.msg)
-        }
-      })
-      .catch(error => {
-        console.error('Error uploading image:', error);
-        // 处理上传失败后的逻辑
-      });
-}
-
-function sendMessage() {
-  if (!newMessage.value.content) {
-    alert('请输入留言内容');
-    return;
+  if (fileInput.files && fileInput.files[0]) {
+    selectedImageFile.value = fileInput.files[0];
+  } else {
+    selectedImageFile.value = null;
   }
-  // 发送 POST 请求将消息发送给后端
-  axios.post('message/user', newMessage.value)
-      .then(response => {
-        if (response.data.code === 1) {
-          newMessage.value.content = '';
-          // 重新获取用户留言列表
-          getUserContentList();
-        } else {
-          // 处理服务器返回的错误信息
-          alert('消息发送失败: ' + response.data.msg);
-        }
-      })
-      .catch(error => {
-        // 处理发送消息失败的情况
-        console.error('消息发送失败:', error);
-        alert('消息发送失败，请稍后再试。');
-      });
-}
+};
+
+const uploadImage = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    axios.post('/message/image', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+        .then(response => {
+          if (response.data.code === 1) {
+            resolve(response.data.data); // 返回图片路径
+          } else {
+            reject('上传失败: ' + response.data.msg);
+          }
+        })
+        .catch(error => {
+          reject('Error uploading image: ' + error);
+        });
+  });
+};
+
+const addContent = async () => {
+
+  try {
+    if (selectedImageFile.value) {
+      newMessage.value.imgPath = await uploadImage(selectedImageFile.value);
+    }
+
+    const response = await axios.post('/message/user', newMessage.value);
+    if (response.data.code === 1) {
+      // 清空表单
+      newMessage.value.content = '';
+      newMessage.value.imgPath = '';
+      selectedImageFile.value = null;
+      // 重新获取公告列表
+      getUserContentList()
+    } else {
+      alert('公告发布失败: ' + response.data.msg);
+    }
+  } catch (error) {
+    console.error('公告发布失败:', error);
+    alert('公告发布失败，请稍后再试。');
+  }
+};
 </script>
 
 <template>
@@ -139,7 +146,7 @@ function sendMessage() {
           <!-- 图片 -->
           <div class="data-row" v-if="announcement.imgPath">
             <img :src="'/src/assets/messageImg/'+announcement.imgPath" alt="管理员上传的图片"
-                 style="width: 240px;height: 180px"/>
+                 style="width: 320px;height: 180px"/>
           </div>
         </div>
       </div>
@@ -160,11 +167,12 @@ function sendMessage() {
         </div>
         <!-- 图片 -->
         <div class="data-row" v-if="item.imgPath">
-          <img :src="'/src/assets/messageImg/'+item.imgPath" alt="用户上传的图片" style="width: 240px;height: 180px"/>
+          <img :src="'/src/assets/messageImg/'+item.imgPath" alt="用户上传的图片" style="width: 320px;height: 180px"/>
         </div>
       </div>
     </div>
 
+    <!-- 留言输入 -->
     <div class="message-input mt-3">
       <div class="input-group">
         <textarea class="form-control mb-2" v-model="newMessage.content" placeholder="请输入留言内容"></textarea>
@@ -177,10 +185,13 @@ function sendMessage() {
                   d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v8l-2.083-2.083a.5.5 0 0 0-.76.063L8 11 5.835 9.7a.5.5 0 0 0-.611.076L3 12V2z"/>
             </svg>
           </label>
-          <input id="file-input" type="file" style="display: none" @change="uploadImage">
+          <input id="file-input" type="file" style="display: none" @change="handleFileChange">
         </div>
+        <button class="btn btn-success mt-2" @click="addContent">发送</button>
       </div>
-      <button class="btn btn-success mt-2" @click="sendMessage">发送</button>
+      <div v-if="selectedImageFile" class="selected-image-info">
+        已选择图片
+      </div>
     </div>
   </div>
 </template>
@@ -191,12 +202,18 @@ function sendMessage() {
 }
 .message-input {
   display: flex;
+  flex-direction: column; /* 改为列方向 */
   position: fixed; /* 固定定位 */
   bottom: 20px;
   padding: 15px;
   background-color: #e9ecef;
   z-index: 999; /* 确保输入框位于其他内容之上 */
   width: 1300px;
+  height: 110px;
+}
+
+.message-input .input-group {
+  display: flex;
 }
 
 .message-input textarea {
@@ -208,13 +225,23 @@ function sendMessage() {
   margin-right: 10px;
 }
 
+.message-input .input-group-append {
+  display: flex;
+  align-items: center;
+}
+
 .message-input button {
-  width: 60px;
-  height: 60px;
+  width: 100px; /* 改宽度 */
+  height: 40px; /* 改高度 */
   background-color: #007bff;
   color: #fff;
   border: none;
   cursor: pointer;
+  margin-top: 10px; /* 顶部外边距 */
+}
+
+.selected-image-info {
+  color: #6c757d; /* Muted text color */
 }
 
 .data-row {
@@ -250,6 +277,6 @@ svg {
 }
 
 #content {
-  margin-bottom: 120px;
+  margin-bottom: 132px;
 }
 </style>
