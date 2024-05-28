@@ -9,7 +9,7 @@ function logout() {
       .then(res => {
         if (res.data.code === 1) {
           alert(res.data.data);
-          auth.logout()
+          auth.userLogout()
           router.push('/userLogin');
         } else {
           alert('登出失败');

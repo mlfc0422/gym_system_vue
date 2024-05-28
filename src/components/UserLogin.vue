@@ -13,7 +13,7 @@ function submitForm() {
   axios.post('userLogin', userData.value)
       .then(res => {
         if (res.data.code === 1) {
-          auth.login();
+          auth.userLogin();
           alert('登录成功');
           router.push('/userIndex/introduce');
         } else {

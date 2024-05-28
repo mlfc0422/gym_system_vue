@@ -32,7 +32,7 @@ const router = createRouter({
             component: UserIndex,
             meta: {requiresAuth: true},
             beforeEnter: (to, from, next) => {
-                if (to.meta.requiresAuth && !auth.loggedIn()) {
+                if (to.meta.requiresAuth && !auth.userLoggedIn()) {
                     next('/userLogin'); // 如果需要登录且未登录，则跳转到登录页面
                 } else {
                     next(); // 继续路由跳转
@@ -71,7 +71,7 @@ const router = createRouter({
             component: RootIndex,
             meta: {requiresAuth: true},
             beforeEnter: (to, from, next) => {
-                if (to.meta.requiresAuth && !auth.loggedIn()) {
+                if (to.meta.requiresAuth && !auth.rootLoggedIn()) {
                     next('/rootLogin'); // 如果需要登录且未登录，则跳转到登录页面
                 } else {
                     next(); // 继续路由跳转

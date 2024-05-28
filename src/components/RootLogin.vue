@@ -14,7 +14,7 @@ function submitForm() {
   axios.post('rootLogin', userData.value)
       .then(res => {
         if (res.data.code === 1) {
-          auth.login();
+          auth.rootLogin();
           alert('登录成功');
           router.push('/rootIndex');
         } else {
