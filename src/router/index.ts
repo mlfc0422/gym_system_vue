@@ -5,12 +5,15 @@ import UserIndex from "@/components/UserIndex.vue";
 import RootLogin from "@/components/RootLogin.vue";
 import RootIndex from "@/components/RootIndex.vue";
 import Home from "@/views/Home.vue";
-import Course from "@/views/Course.vue";
+import Course from "@/views/UserCourse.vue";
 import MyClass from "@/views/MyClass.vue";
 import UserMessage from "@/views/UserMessage.vue";
 import auth from "@/utils/auth";
-import Introduce from "@/views/Introduce.vue";
 import RootMessage from "@/views/RootMessage.vue";
+import UserIntroduce from "@/views/UserIntroduce.vue";
+import RootIntroduce from "@/views/RootIntroduce.vue";
+import UserManage from "@/views/UserManage.vue";
+import BillManage from "@/views/BillManage.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -57,7 +60,7 @@ const router = createRouter({
                 },
                 {
                     path: 'introduce',
-                    component: Introduce
+                    component: UserIntroduce
                 }
             ]
 
@@ -79,8 +82,20 @@ const router = createRouter({
             },
             children:[
                 {
+                    path: 'introduce',
+                    component: RootIntroduce
+                },
+                {
                     path:'rootMessage',
                     component: RootMessage
+                },
+                {
+                    path: 'userMange',
+                    component: UserManage
+                },
+                {
+                    path: 'billMange',
+                    component: BillManage
                 }
             ]
         }

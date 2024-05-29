@@ -16,7 +16,7 @@ function submitForm() {
         if (res.data.code === 1) {
           auth.rootLogin();
           alert('登录成功');
-          router.push('/rootIndex');
+          router.push('/rootIndex/introduce');
         } else {
           alert('登录失败:' + res.data.msg);
         }
