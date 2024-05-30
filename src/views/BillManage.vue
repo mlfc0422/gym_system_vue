@@ -83,7 +83,7 @@ function addBill() {
         <el-dialog title="新增账单" v-model="showAddBillDialog">
           <el-form :model="currentBill">
             <el-form-item label="描述">
-              <el-input v-model="currentBill.description"></el-input>
+              <el-input v-model="currentBill.text"></el-input>
             </el-form-item>
             <el-form-item label="金额">
               <el-input v-model="currentBill.amount" type="number"></el-input>

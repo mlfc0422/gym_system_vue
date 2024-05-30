@@ -36,7 +36,7 @@ function logout() {
         <div class="position-sticky pt-3 sidebar-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <router-link to="/rootIndex/userMange" class="nav-link rectangle">
+              <router-link to="/rootIndex/userManage" class="nav-link rectangle">
                 <span class="align-text-bottom"></span>
                 用户管理
               </router-link>
@@ -48,13 +48,13 @@ function logout() {
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/rootIndex/billMange" class="nav-link rectangle">
+              <router-link to="/rootIndex/billManage" class="nav-link rectangle">
                 <span class="align-text-bottom"></span>
                 财政管理
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="" class="nav-link rectangle">
+              <router-link to="/rootIndex/facilityManage" class="nav-link rectangle">
                 <span class="align-text-bottom"></span>
                 器材管理
               </router-link>
