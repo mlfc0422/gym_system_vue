@@ -15,6 +15,7 @@ import RootIntroduce from "@/views/RootIntroduce.vue";
 import UserManage from "@/views/UserManage.vue";
 import BillManage from "@/views/BillManage.vue";
 import FacilityManage from '@/views/FacilityManage.vue';
+import CourseManage from "@/views/CourseManage.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -101,6 +102,10 @@ const router = createRouter({
                 {
                     path: 'facilityManage',
                     component: FacilityManage
+                },
+                {
+                    path: 'courseManage',
+                    component: CourseManage
                 }
             ]
         }

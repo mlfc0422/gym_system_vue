@@ -37,7 +37,7 @@ function getCourseList() {
 
 // 为 handleReservation 函数添加类型注解
 function handleReservation(row: Course) {
-  axios.put('course/reserve', row)
+  axios.post('course/reserve', row)
       .then(res => {
         if (res.data.code === 1) {
           alert('预约成功');

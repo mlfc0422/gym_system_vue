@@ -42,7 +42,7 @@ function logout() {
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="" class="nav-link rectangle">
+              <router-link to="/rootIndex/courseManage" class="nav-link rectangle">
                 <span class="align-text-bottom"></span>
                 课程管理
               </router-link>
