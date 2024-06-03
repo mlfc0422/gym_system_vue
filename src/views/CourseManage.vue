@@ -66,7 +66,7 @@ function getCourseList() {
 }
 
 function updateCourse() {
-  axios.put(`/course/${currentCourse.value.id}`, currentCourse.value)
+  axios.put(`/course`, currentCourse.value)
       .then(res => {
         if (res.data.code === 1) {
           getCourseList();

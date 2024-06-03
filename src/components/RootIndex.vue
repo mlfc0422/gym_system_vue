@@ -60,7 +60,7 @@ function logout() {
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="" class="nav-link rectangle">
+              <router-link to="/rootIndex/EmpManage" class="nav-link rectangle">
                 <span class="align-text-bottom"></span>
                 员工管理
               </router-link>
