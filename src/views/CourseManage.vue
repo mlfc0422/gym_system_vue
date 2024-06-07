@@ -125,6 +125,23 @@ function closeCourseDialog() {
   currentCourse.value = {};
   isEdit.value = false;
 }
+
+function resetCourse() {
+  if (confirm('确定要重置所有课程吗？此操作不可撤销。')) {
+    axios.delete('/course/clear')
+        .then(res => {
+          if (res.data.code === 1) {
+            getCourseList();
+          } else {
+            alert('重置课程失败: ' + res.data.msg);
+          }
+        })
+        .catch(error => {
+          console.error('重置课程请求失败:', error);
+        });
+  }
+}
+
 </script>
 
 <template>
@@ -140,6 +157,7 @@ function closeCourseDialog() {
             <el-button type="primary" @click="showAddCourseDialog = true">新增课程</el-button>
             <el-button type="danger" @click="deleteSelectedCourses" :disabled="!multipleSelection.length">批量删除
             </el-button>
+            <el-button type="danger" @click="resetCourse">重置课程</el-button>
           </el-col>
         </el-row>
         <!-- 分割线 -->

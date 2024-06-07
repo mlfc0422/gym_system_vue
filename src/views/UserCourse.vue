@@ -5,8 +5,8 @@ import axios from "axios";
 
 // 定义行数据的接口
 interface Course {
-  courseId: number;
-  courseName: string;
+  id: number;
+  name: string;
   teacherName: string;
   week: string;
   time: string;
@@ -28,12 +28,13 @@ function getCourseList() {
   axios.get('course/list')
       .then(res => {
         courseList.value = res.data.data;
-        filteredCourseList.value = res.data.data;
+        filteredCourseList.value = res.data.data.slice();
       })
       .catch(err => {
         console.log(err);
       });
 }
+
 
 // 为 handleReservation 函数添加类型注解
 function handleReservation(row: Course) {
@@ -41,13 +42,12 @@ function handleReservation(row: Course) {
       .then(res => {
         if (res.data.code === 1) {
           alert('预约成功');
-          const index = courseList.value.findIndex(course => course.courseId === row.courseId);
+          const index = courseList.value.findIndex(course => course.id === row.id);
           if (index !== -1) {
             courseList.value[index].booked++;
-            filteredCourseList.value[index].booked++;
           }
         } else {
-          alert('预约失败:'+res.data.msg);
+          alert('预约失败:' + res.data.msg);
         }
       })
       .catch(err => {
@@ -55,11 +55,12 @@ function handleReservation(row: Course) {
       });
 }
 
+
 function handleSearch() {
   // 过滤课程列表
   filteredCourseList.value = courseList.value.filter((course) => {
     console.log("key的值"+keyword.value);
-    return course.courseName.includes(keyword.value) || course.teacherName.includes(keyword.value)|| course.week.includes(keyword.value) || course.time.includes(keyword.value);
+    return course.name.includes(keyword.value) || course.teacherName.includes(keyword.value) || course.week.includes(keyword.value) || course.time.includes(keyword.value);
   });
 }
 </script>
@@ -68,7 +69,7 @@ function handleSearch() {
   <div id="course">
     <el-input v-model="keyword" @input="handleSearch" placeholder="输入关键字搜索课程" clearable></el-input>
     <el-table :data="filteredCourseList" height="100%" style="width: 100%">
-      <el-table-column prop="courseName" label="课程名称" width="180"/>
+      <el-table-column prop="name" label="课程名称" width="180"/>
       <el-table-column prop="teacherName" label="教师姓名" width="180"/>
       <el-table-column prop="week" label="日期" width="180"/>
       <el-table-column prop="time" label="时间" width="180"/>
