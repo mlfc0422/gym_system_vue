@@ -55,7 +55,7 @@ import axios from 'axios';
 import * as echarts from 'echarts';
 
 interface CourseCount {
-  courseName: string;
+  name: string;
   courseCount: number;
 }
 
@@ -104,7 +104,7 @@ const initChart = () => {
           name: '数据',
           type: 'pie',
           radius: '50%',
-          data: UserCourseCountList.value.map(item => ({ value: item.courseCount, name: item.courseName })),
+          data: UserCourseCountList.value.map(item => ({value: item.courseCount, name: item.name})),
           emphasis: {
             itemStyle: {
               shadowBlur: 10,

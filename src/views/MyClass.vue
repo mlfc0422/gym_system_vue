@@ -6,7 +6,7 @@ import axios from "axios";
 
 interface Course {
   courseId: number;
-  courseName: string;
+  name: string;
   teacherName: string;
   week: string;
   time: string;
@@ -36,7 +36,7 @@ function getMyCourseList() {
 <template>
   <div id="myCourse">
     <el-table :data="myCourseList" height="100%" style="width: 100%">
-      <el-table-column prop="courseName" label="课程名称" width="260"/>
+      <el-table-column prop="name" label="课程名称" width="260"/>
       <el-table-column prop="teacherName" label="教师姓名" width="260"/>
       <el-table-column prop="week" label="日期" width="260"/>
       <el-table-column prop="time" label="时间" width="260"/>

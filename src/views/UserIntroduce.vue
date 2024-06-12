@@ -4,7 +4,7 @@ import axios from "axios";
 import * as echarts from 'echarts';
 
 interface CourseData {
-  courseName: string;
+  name: string;
   courseCount: number;
 }
 
@@ -42,7 +42,7 @@ const initChart = () => {
       },
       yAxis: {
         type: 'category',
-        data: CourseCountList.value.map(item => item.courseName),
+        data: CourseCountList.value.map(item => item.name),
       },
       series: [
         {
